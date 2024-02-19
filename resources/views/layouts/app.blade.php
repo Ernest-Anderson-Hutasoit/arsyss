@@ -12,6 +12,8 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     
     <!-- <script src="/js/app.js"></script> -->
+    
+    @livewireStyles
 </head>
     <body>
         <div id="app">
@@ -53,7 +55,7 @@
                     <main class="w-full bg-yellow-200 overflow-y-auto">
                         <!-- Replace with your content -->
                         <div>
-                                @yield('content')
+                            @yield('content')
                         </div>
                         <!-- /End replace -->
                     </main>
