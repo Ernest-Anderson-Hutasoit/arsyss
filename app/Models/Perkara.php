@@ -5,19 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Perkara extends Model
 {
     use HasFactory;
 
-    public function p16s(): HasMany
+    protected $fillable = ['jenis_pidana', 'nomor_register', 'nomor_sprindik', 'jenis', 'pasal_dakwaan', 'status'];
+
+    public function p16s(): HasOne
     {
-        return $this->hasMany(P16::class)->withTimestamps();
+        return $this->hasOne(P16::class)->withTimestamps();
     }
-    public function p16as(): HasMany
+    public function p16as(): HasOne
     {
-        return $this->hasMany(P16a::class)->withTimestamps();
+        return $this->hasOne(P16a::class)->withTimestamps();
     }
     public function barangbuktis(): BelongsToMany
     {

@@ -16,6 +16,7 @@
     @livewireStyles
 </head>
     <body>
+    @livewireScripts
         <div id="app">
             <div class="flex flex-col h-screen">
                 <header class="flex flex-row justify-between items-center bg-gray-800 p-4 h-16">

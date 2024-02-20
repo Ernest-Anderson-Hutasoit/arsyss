@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Jaksa extends Model
 {
     use HasFactory;
+    protected $fillable = ['nama', 'nip'];
 
     public function p16s(): BelongsToMany
     {

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    @livewireScripts
     @livewire('tambah-perkara')
 
     <!-- <div class="flex bg-gray-300 mb-4 px-2 py-2">

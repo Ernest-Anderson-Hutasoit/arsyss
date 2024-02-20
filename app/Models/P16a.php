@@ -11,6 +11,8 @@ class P16a extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nomor', 'tanggal', 'gambar'];
+
     public function perkaras(): BelongsTo
     {
         return $this->belongsTo(Perkara::class);

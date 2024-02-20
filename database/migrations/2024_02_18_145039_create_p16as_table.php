@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('p16as', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Perkara::class)->constrained();
+            $table->foreignIdFor(\App\Models\Perkara::class)->constrained()
+                ->cascadeOnDelete();
 
             $table->string('nomor');
             $table->date('tanggal');

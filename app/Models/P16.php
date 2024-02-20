@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class P16 extends Model
 {
     use HasFactory;
+    protected $table = 'p16s';
+    protected $fillable = ['nomor', 'tanggal', 'gambar'];
 
     public function perkaras(): BelongsTo
     {

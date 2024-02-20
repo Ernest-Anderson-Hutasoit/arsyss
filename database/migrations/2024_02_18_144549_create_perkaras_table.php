@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('perkaras', function (Blueprint $table) {
             $table->id();
+            $table->string('jenis_pidana');
             $table->string('nomor_register');
             $table->string('nomor_sprindik');
-            $table->string('tipe');
             $table->string('jenis');
             $table->text('pasal_dakwaan');
-            $table->string('status');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

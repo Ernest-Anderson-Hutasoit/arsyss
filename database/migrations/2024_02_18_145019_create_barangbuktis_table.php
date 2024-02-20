@@ -20,7 +20,6 @@ return new class extends Migration
             $table->text('lokasi');
             $table->unsignedInteger('jumlah');
             $table->string('jenis_satuan');
-            $table->text('keterangan');
             $table->timestamps();
         });
     }
