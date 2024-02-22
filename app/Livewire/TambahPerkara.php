@@ -17,10 +17,29 @@ class TambahPerkara extends Component
     public $p16;
     public $p16a;
     public $barangbuktis;
-    // public $p16_jaksas;
-    // public $p16a_jaksas;
     public $tersangkas;
     
+    protected $rules = [
+        'perkara' => 'required',
+        'p16' => 'required',
+        'p16a' => 'required',
+        'barangbuktis' => 'required',
+        'tersangkas' => 'required',
+
+        'perkara.*.jenis_pidana' => 'required',
+        'perkara.*.nomor_register' => 'required',
+        'perkara.*.nomor_sprindik' => 'required',
+        'perkara.*.jenis' => 'required',
+        'perkara.*.jenis.*' => 'required',
+        'perkara.*.pasal_dakwaan' => 'required',
+
+
+        'p16.*' => 'required',
+        'p16a.*' => 'required',
+        'barangbuktis.*' => 'required',
+        'tersangkas.*' => 'required'
+    ];
+
     public function mount()
     {     
         $this->fill([
@@ -36,12 +55,6 @@ class TambahPerkara extends Component
             'p16a' => collect([
                 ['nomor' => '', 'tanggal' => '', 'gambar' => '', 'jaksas' => collect([['nama' => '', 'nip' => '']])]
             ]),
-            // 'p16_jaksas' => collect([
-            //     ['nama' => '', 'nip' => '']
-            // ]),
-            // 'p16a_jaksas' => collect([
-            //     ['nama' => '', 'nip' => '']
-            // ]),
             'tersangkas' => collect([
                 ['nama' => '', 'alamat' => '', 'gambar' => '']
             ])
@@ -49,6 +62,7 @@ class TambahPerkara extends Component
     }
     public function render()
     {
+        // dd($this->perkara);
         return view('livewire.tambah-perkara');
     }
     
@@ -94,30 +108,57 @@ class TambahPerkara extends Component
 
     public function simpanPerkara()
     {
-        // $perkara = Perkara::create([
-        //     'jenis_pidana'=> $this->perkara[0]['jenis_pidana'],
-        //     'nomor_register'=> $this->perkara[0]['nomor_register'],
-        //     'nomor_sprindik'=> $this->perkara[0]['nomor_sprindik'],
-        //     'jenis'=> $this->perkara[0]['jenis'],
-        //     'pasal_dakwaan'=> $this->perkara[0]['pasal_dakwaan']
-        // ]);
+        $this->validate();
 
+        $perkara = Perkara::create([
+            'jenis_pidana'=> $this->perkara[0]['jenis_pidana'],
+            'nomor_register'=> $this->perkara[0]['nomor_register'],
+            'nomor_sprindik'=> $this->perkara[0]['nomor_sprindik'],
+            'jenis'=> $this->perkara[0]['jenis'],
+            'pasal_dakwaan'=> $this->perkara[0]['pasal_dakwaan']
+        ]);
 
-        // $p16 = $perkara->p16s()->create([
-        //     'nomor'=> $this->p16[0]['nomor'],
-        //     'tanggal'=> $this->perkara[0]['tanggal'],
-        //     'gambar'=> $this->perkara[0]['gambar']
-        // ])->jaksas()->createMany();
+        for($i = 0; $i < count($this->tersangkas); $i++)
+        {
+            $tersangka = Tersangka::create([
+                'nama'=> $this->tersangkas[0]['nama'],
+                'alamat'=> $this->tersangkas[0]['alamat'],
+                // 'gambar'=> $this->tersangkas[0]['gambar'],
+            ]);
+
+            $perkara->tersangkas()->attach($tersangka->id);
+        }
+
+        $p16 = $perkara->p16s()->create([
+            'nomor'=> $this->p16[0]['nomor'],
+            'tanggal'=> $this->p16[0]['tanggal']
+            // 'gambar'=> $this->p16[0]['gambar']
+        ]);
+        for($i = 0; $i < count($this->p16[0]['jaksas']); $i++)
+        {
+            $jaksaP16 = Jaksa::create([
+                'nama'=> $this->p16[0]['jaksas'][$i]['nama'],
+                'nip'=> $this->p16[0]['jaksas'][$i]['nip']
+            ]);
+
+            $p16->jaksas()->attach($jaksaP16->id);
+        }
         
-        dd($this->tersangkas);
-        // dd($this->tersangkas[0]);
+        $p16a = $perkara->p16as()->create([
+            'nomor'=> $this->p16a[0]['nomor'],
+            'tanggal'=> $this->p16a[0]['tanggal']
+            // 'gambar'=> $this->p16[0]['gambar']
+        ]);
+        for($i = 0; $i < count($this->p16a[0]['jaksas']); $i++)
+        {
+            $jaksaP16a = Jaksa::create([
+                'nama'=> $this->p16a[0]['jaksas'][$i]['nama'],
+                'nip'=> $this->p16a[0]['jaksas'][$i]['nip']
+            ]);
 
-        // Poll::create([
-        //     'title'=> $this->title,
-        // ])->options()->createMany(
-        //     collect($this->options)->map(fn($option) => ['name' => $option])->all()
-        // );
+            $p16a->jaksas()->attach($jaksaP16a->id);
+        }
         
-        // $this->reset(['perkara', 'p16', 'p16a', 'barangbuktis', 'tersangkas']);
+        return redirect()->route('perkara.tambah');
     }
 }

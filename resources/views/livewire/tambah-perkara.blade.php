@@ -36,6 +36,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <select wire:model="perkara.{{0}}.jenis_pidana" class="border border-solid border-black focus:border-indigo-400 focus:shadow-none focus:bg-white mt-1 block w-full" name="jenis-pidana">
+                                    <option value="">--Jenis Pidana--</option>
                                     <option value="PIDUM">PIDUM</option>
                                     <option value="PIDSUS">PIDSUS</option>
                                 </select>
@@ -279,6 +280,7 @@
                             </div>
                             <div class="col-span-6">
                                 <select wire:model="perkara.{{0}}.jenis.{{$index}}" class="border border-solid border-black focus:border-indigo-400 focus:shadow-none focus:bg-white mt-1 block w-full" name="jenis-pidana">
+                                    <option value="">--Jenis Perkara--</option>    
                                     <option value="Pencucian Uang">Pencucian Uang</option>
                                     <option value="Korupsi">Korupsi</option>
                                     <option value="Narkotika">Narkotika</option>
@@ -332,6 +334,15 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded shadow mt-4">
+                <div>
+                    <h2 class="text-2xl font-medium pl-6 pr-6 pt-1 pb-1 bg-yellow-200">Data Perkara</h2>
+                </div>
+                <div class="mt-4 pl-6 pr-6 pb-6">
+                    <button wire:click.prevent="tambahJaksaP16" class="px-3 py-2 bg-yellow-400 hover:bg-yellow-500 text-white font-medium rounded">Tambah Barang Bukti</button>
                 </div>
             </div>
             <button type="submit" class="my-4 px-3 py-2 bg-green-400 hover:bg-green-500 text-white font-medium rounded w-full">Simpan</button>

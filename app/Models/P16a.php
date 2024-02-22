@@ -19,6 +19,6 @@ class P16a extends Model
     }
     public function jaksas(): BelongsToMany
     {
-        return $this->belongsToMany(Jaksa::class, "jaksa_p16a")->withTimestamps();
+        return $this->belongsToMany(Jaksa::class, "jaksa_p16a");
     }
 }

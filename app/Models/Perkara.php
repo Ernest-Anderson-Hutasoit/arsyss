@@ -15,11 +15,12 @@ class Perkara extends Model
 
     public function p16s(): HasOne
     {
-        return $this->hasOne(P16::class)->withTimestamps();
+        // return $this->hasOne(P16::class)->withDefault();
+        return $this->hasOne(P16::class);
     }
     public function p16as(): HasOne
     {
-        return $this->hasOne(P16a::class)->withTimestamps();
+        return $this->hasOne(P16a::class);
     }
     public function barangbuktis(): BelongsToMany
     {

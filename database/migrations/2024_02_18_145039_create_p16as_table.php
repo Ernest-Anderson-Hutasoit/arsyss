@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->string('nomor');
             $table->date('tanggal');
-            $table->binary('gambar');
+            $table->binary('gambar')->nullable();
             $table->timestamps();
         });
     }
