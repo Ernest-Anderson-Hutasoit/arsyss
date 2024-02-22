@@ -10,7 +10,7 @@ class Barangbukti extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'nomor_register', 'tanggal', 'perkiraan', 'lokasi', 'jumlah', 'jenis_satuan'];
+    protected $fillable = ['nama', 'nomor_register', 'tanggal', 'jenis', 'perkiraan', 'lokasi', 'jumlah', 'jenis_satuan'];
     
     public function perkaras():BelongsToMany
     {

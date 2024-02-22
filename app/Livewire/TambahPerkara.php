@@ -13,11 +13,24 @@ use Livewire\Component;
 
 class TambahPerkara extends Component
 {   
+    // public $isModalOpen = false;
+    // public $nama;
+    // public $nomor_register;
+    // public $tanggal;
+    // public $jenis;
+    // public $perkiraan;
+    // public $lokasi;
+    // public $jumlah;
+    // public $jenis_satuan;
+    public $i=0;
+
     public $perkara;
     public $p16;
     public $p16a;
     public $barangbuktis;
     public $tersangkas;
+
+    protected $listeners = ['tambahBarangbukti' => 'simpanBarangbukti'];
     
     protected $rules = [
         'perkara' => 'required',
@@ -46,9 +59,9 @@ class TambahPerkara extends Component
             'perkara' => collect([
                 ['jenis_pidana' => '', 'nomor_register' => '', 'nomor_sprindik' => '', 'jenis' => collect(['']), 'pasal_dakwaan' => '', 'status' => '']
             ]),
-            'barangbuktis' => collect([
-                ['nama' => '', 'nomor_register' => '', 'tanggal' => '', 'perkiraan' => '', 'lokasi' => '', 'jumlah' => '', 'jenis_satuan' => '']
-            ]),
+            // 'barangbuktis' => collect([
+            //     ['nama' => '', 'nomor_register' => '', 'tanggal' => '', 'jenis' => '', 'perkiraan' => '', 'lokasi' => '', 'jumlah' => '', 'jenis_satuan' => '']
+            // ]),
             'p16' => collect([
                 ['nomor' => '', 'tanggal' => '', 'gambar' => '', 'jaksas' => collect([['nama' => '', 'nip' => '']])]
             ]),
@@ -62,9 +75,18 @@ class TambahPerkara extends Component
     }
     public function render()
     {
-        // dd($this->perkara);
         return view('livewire.tambah-perkara');
     }
+
+    // public function openModal()
+    // {
+    //     // dd($this->barangbuktis);
+    //     $this->isModalOpen = true;
+    // }
+    // public function closeModal()
+    // {
+    //     $this->isModalOpen = false;
+    // }
     
     public function tambahJaksaP16()
     {
@@ -105,6 +127,38 @@ class TambahPerkara extends Component
         $this->perkara[0]['jenis']->forget($index);
         $this->perkara[0]['jenis']->values();
     }
+
+    public function simpanBarangbukti($barangbuktis)
+    {
+        if(is_null($this->barangbuktis))
+        {
+            $this->barangbuktis = collect($barangbuktis);
+        }
+        else
+        {
+            $this->barangbuktis->push($barangbuktis);
+        }
+    }
+
+    // public function simpanBarangbukti()
+    // {
+    //     $this->barangbuktis[$this->i] = 
+    //     [
+    //         'nama' => $this->nama, 
+    //         'nomor_register' => $this->nomor_register, 
+    //         'tanggal' => $this->tanggal, 
+    //         'jenis' => $this->jenis, 
+    //         'perkiraan' => $this->perkiraan, 
+    //         'lokasi' => $this->lokasi, 
+    //         'jumlah' => $this->jumlah, 
+    //         'jenis_satuan' => $this->jenis_satuan
+    //     ];
+    //     $this->i++;
+    //     if($this->i==2)
+    //     {
+    //         dd($this->barangbuktis);
+    //     }
+    // }
 
     public function simpanPerkara()
     {

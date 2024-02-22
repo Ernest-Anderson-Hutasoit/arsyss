@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('barangbuktis', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->text('nama');
             $table->string('nomor_register');
             $table->date('tanggal');
+            $table->string('jenis');
             $table->unsignedBigInteger('perkiraan');
             $table->text('lokasi');
             $table->unsignedInteger('jumlah');
