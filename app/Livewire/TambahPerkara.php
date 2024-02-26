@@ -22,7 +22,7 @@ class TambahPerkara extends Component
     // public $lokasi;
     // public $jumlah;
     // public $jenis_satuan;
-    public $i=0;
+    // public $i=0;
 
     public $perkara;
     public $p16;
@@ -130,40 +130,24 @@ class TambahPerkara extends Component
 
     public function simpanBarangbukti($barangbuktis)
     {
-        if(is_null($this->barangbuktis))
-        {
-            $this->barangbuktis = collect($barangbuktis);
-        }
-        else
-        {
-            $this->barangbuktis->push($barangbuktis);
-        }
+        $this->barangbuktis = collect($barangbuktis);
+        
+        // if(is_null($this->barangbuktis))
+        // {
+        //     $this->barangbuktis = collect($barangbuktis);
+        // }
+        // else
+        // {
+        //     $this->barangbuktis->push($barangbuktis);
+        // }
     }
-
-    // public function simpanBarangbukti()
-    // {
-    //     $this->barangbuktis[$this->i] = 
-    //     [
-    //         'nama' => $this->nama, 
-    //         'nomor_register' => $this->nomor_register, 
-    //         'tanggal' => $this->tanggal, 
-    //         'jenis' => $this->jenis, 
-    //         'perkiraan' => $this->perkiraan, 
-    //         'lokasi' => $this->lokasi, 
-    //         'jumlah' => $this->jumlah, 
-    //         'jenis_satuan' => $this->jenis_satuan
-    //     ];
-    //     $this->i++;
-    //     if($this->i==2)
-    //     {
-    //         dd($this->barangbuktis);
-    //     }
-    // }
 
     public function simpanPerkara()
     {
         $this->validate();
+        // dd($this->barangbuktis);
 
+        // Membuat dan memasukkan data perkara ke database
         $perkara = Perkara::create([
             'jenis_pidana'=> $this->perkara[0]['jenis_pidana'],
             'nomor_register'=> $this->perkara[0]['nomor_register'],
@@ -172,6 +156,7 @@ class TambahPerkara extends Component
             'pasal_dakwaan'=> $this->perkara[0]['pasal_dakwaan']
         ]);
 
+        // Membuat dan memasukkan data tersangka ke database
         for($i = 0; $i < count($this->tersangkas); $i++)
         {
             $tersangka = Tersangka::create([
@@ -183,6 +168,7 @@ class TambahPerkara extends Component
             $perkara->tersangkas()->attach($tersangka->id);
         }
 
+        // Membuat dan memasukkan data p16 beserta jaksa ke database
         $p16 = $perkara->p16s()->create([
             'nomor'=> $this->p16[0]['nomor'],
             'tanggal'=> $this->p16[0]['tanggal']
@@ -198,6 +184,7 @@ class TambahPerkara extends Component
             $p16->jaksas()->attach($jaksaP16->id);
         }
         
+        // Membuat dan memasukkan data p16a beserta jaksa ke database
         $p16a = $perkara->p16as()->create([
             'nomor'=> $this->p16a[0]['nomor'],
             'tanggal'=> $this->p16a[0]['tanggal']
@@ -211,6 +198,22 @@ class TambahPerkara extends Component
             ]);
 
             $p16a->jaksas()->attach($jaksaP16a->id);
+        }
+
+        // Membuat dan memasukkan data barangbukti ke database
+        for($i = 0; $i < count($this->barangbuktis); $i++)
+        {
+            $barangbuktis = $perkara->barangbuktis()->create([
+                'nama'=> $this->barangbuktis[$i]['nama'],
+                'nomor_register'=> $this->barangbuktis[$i]['nomor_register'],
+                'tanggal'=> $this->barangbuktis[$i]['tanggal'],
+                'jenis'=> $this->barangbuktis[$i]['jenis'],
+                'perkiraan'=> $this->barangbuktis[$i]['perkiraan'],
+                'lokasi'=> $this->barangbuktis[$i]['lokasi'],
+                'jumlah'=> $this->barangbuktis[$i]['jumlah'],
+                'jenis_satuan'=> $this->barangbuktis[$i]['jenis_satuan']
+                // 'gambar'=> $this->p16[0]['gambar']
+            ]);
         }
         
         return redirect()->route('perkara.tambah');
