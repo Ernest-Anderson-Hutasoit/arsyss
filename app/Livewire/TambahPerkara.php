@@ -216,6 +216,6 @@ class TambahPerkara extends Component
             ]);
         }
         
-        return redirect()->route('perkara.tambah');
+        return redirect()->route('perkara.index');
     }
 }

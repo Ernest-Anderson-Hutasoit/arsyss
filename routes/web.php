@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PerkaraController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,6 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/perkara/tambah', [PerkaraController::class, 'tambah'])->name('perkara.tambah');
+Route::get('/perkara/index', [PerkaraController::class, 'index'])->name('perkara.index');
+
 Route::view('/home', 'home')->name('arsyss.home');
 
-Route::view('/perkara/tambah', 'tambah_perkara')->name('perkara.tambah');
+// Route::view('/perkara/tambah', 'tambah_perkara')->name('perkara.tambah');
