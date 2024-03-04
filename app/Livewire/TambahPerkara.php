@@ -8,6 +8,7 @@ use App\Models\P16;
 use App\Models\P16a;
 use App\Models\Perkara;
 use App\Models\Tersangka;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
@@ -23,7 +24,7 @@ class TambahPerkara extends Component
     // public $jumlah;
     // public $jenis_satuan;
     // public $i=0;
-
+    public $suggestions;
     public $perkara;
     public $p16;
     public $p16a;
@@ -77,16 +78,92 @@ class TambahPerkara extends Component
     {
         return view('livewire.tambah-perkara');
     }
+    
+    public function updated($perkara)
+    {
+        if ($this->perkara[0]['nomor_register'] !== null && !$this->isOptionSelected($this->perkara[0]['nomor_register'])) {
+            $this->fetchSuggestions($this->perkara[0]['nomor_register']);
+        }
+        else{
+            $this->suggestions = [];
+        }
 
-    // public function openModal()
-    // {
-    //     // dd($this->barangbuktis);
-    //     $this->isModalOpen = true;
-    // }
-    // public function closeModal()
-    // {
-    //     $this->isModalOpen = false;
-    // }
+        // dd($this->suggestions[0]['nomor_register']);
+        // dd($this->perkara[0]['nomor_sprindik']);
+    }
+
+    public function fetchSuggestions($nomorRegister)
+    {
+        $response = Http::get('http://127.0.0.1:8000/api/perkaras', [
+            'nomor_register' => $nomorRegister
+        ]);
+        
+        $response = json_decode($response, true);
+        // $response['data'][2]['jenis'] = array($response['data'][2]['jenis']);
+        // dd($response['data'][2]['jenis']);
+
+        for($i = 0; $i < count($response['data']); $i++)
+        {
+            $response['data'][$i]['jenis'] = json_decode($response['data'][$i]['jenis'], true);
+        }
+        
+        $data = $response['data'];
+
+        $this->suggestions = $data;
+        // dd($this->suggestions);
+    }
+    private function isOptionSelected($selectedNomorRegister)
+    {
+        if($this->suggestions == null)
+        {
+            return false;
+        }
+        else
+        {
+            foreach ($this->suggestions as $index => $suggestion) {
+                if ($suggestion['nomor_register'] === $selectedNomorRegister) {
+                    $this->isiForm($index);
+                    return true;
+                }
+            }   
+        }
+    }
+
+    public function isiForm($index)
+    {
+        // dd($this->suggestions[$index]['jenis']);
+        // dd($this->perkara[0]);
+        // dd($this->p16[0]);
+        // dd($this->tersangkas);
+        // dd($this->barangbuktis);
+        
+        $this->perkara[0] = [
+            'jenis_pidana'=> $this->suggestions[$index]['jenis_pidana'],
+            'nomor_register'=> $this->suggestions[$index]['nomor_register'],
+            'nomor_sprindik'=> $this->suggestions[$index]['nomor_sprindik'],
+            'jenis'=> collect($this->suggestions[$index]['jenis']),
+            'pasal_dakwaan'=> $this->suggestions[$index]['pasal_dakwaan']
+        ];
+
+        $this->p16[0] = [
+            'nomor'=> $this->suggestions[$index]['p16s']['nomor'],
+            'tanggal'=> $this->suggestions[$index]['p16s']['tanggal'],
+            'jaksas'=> collect($this->suggestions[$index]['p16s']['jaksas']),
+        ];
+
+        $this->p16a[0] = [
+            'nomor'=> $this->suggestions[$index]['p16as']['nomor'],
+            'tanggal'=> $this->suggestions[$index]['p16as']['tanggal'],
+            'jaksas'=> collect($this->suggestions[$index]['p16as']['jaksas']),
+        ];
+
+        $this->tersangkas = collect($this->suggestions[$index]['tersangkas']);
+
+        $this->barangbuktis = $this->suggestions[$index]['barangbuktis'];
+        // dd($this->tersangkas);
+        // dd($this->barangbuktis);
+        $this->dispatch('simpanBarangbukti', $this->barangbuktis);
+    }
     
     public function tambahJaksaP16()
     {

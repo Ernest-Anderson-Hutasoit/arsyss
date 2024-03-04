@@ -36,27 +36,45 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <select wire:model="perkara.{{0}}.jenis_pidana" class="border border-solid border-black focus:border-indigo-400 focus:shadow-none focus:bg-white mt-1 block w-full" name="jenis-pidana">
-                                    <option selected="">--Jenis Pidana--</option>
-                                    <option value="PIDUM">PIDUM</option>
-                                    <option value="PIDSUS">PIDSUS</option>
+                                @if ($perkara[0]['jenis_pidana'] == "PIDUM")
+                                    <option value="PIDUM" selected>PIDUM</option>
+                                @elseif ($perkara[0]['jenis_pidana'] == "PIDSUS")
+                                    <option value="PIDSUS" selected>PIDSUS</option>
+                                @else
+                                    <option selected>--Jenis Pidana--</option>
+                                    <option value="PIDUM" selected>PIDUM</option>
+                                    <option value="PIDSUS" selected>PIDSUS</option>
+                                @endif                                                                         
                                 </select>
                             </div>
                             <div class="flex items-center">
                                 <label class="text-sm text-gray-700">No. Register Perkara</label>
                             </div>
-                            <div class="flex items-center col-span-3">
-                                <input wire:model="perkara.{{0}}.nomor_register"
+                            <div class="flex items-center col-span-3"> 
+                                <input wire:model.live.debounce.500ms="perkara.{{0}}.nomor_register"
+                                    list="nomor_register_option"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
+                                <datalist id="nomor_register_option">
+                                    @if($suggestions)
+                                        @foreach ($suggestions as $index => $suggestion)
+                                            <option value="{{$suggestion['nomor_register']}}">
+                                                {{$suggestion['nomor_register']}}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </datalist>
                             </div>
                             <div class="flex items-center">
                                 <label class="text-sm text-gray-700">No. Sprindik</label>
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="perkara.{{0}}.nomor_sprindik"
+                                    value="{{$perkara[0]['nomor_sprindik']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
                             </div>
+                            {{$perkara[0]['nomor_sprindik']}}
                         </div>
                     </div>
                 </div>
@@ -74,6 +92,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16.{{0}}.nomor"
+                                    value="{{$p16[0]['nomor']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
                             </div>
@@ -82,6 +101,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16.{{0}}.tanggal"
+                                    value="{{$p16[0]['tanggal']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="date" />
                             </div>
@@ -118,6 +138,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16.{{0}}.jaksas.{{$index}}.nama"
+                                    value="{{$p16[0]['jaksas'][$index]['nama']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
                             </div>
@@ -126,6 +147,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16.{{0}}.jaksas.{{$index}}.nip"
+                                    value="{{$p16[0]['jaksas'][$index]['nip']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
                             </div>
@@ -150,6 +172,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16a.{{0}}.nomor"
+                                    value="{{$p16a[0]['nomor']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
                             </div>
@@ -158,6 +181,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16a.{{0}}.tanggal"
+                                    value="{{$p16a[0]['tanggal']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="date" />
                             </div>
@@ -194,6 +218,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16a.{{0}}.jaksas.{{$index}}.nama"
+                                    value="{{$p16a[0]['jaksas'][$index]['nama']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
                             </div>
@@ -202,6 +227,7 @@
                             </div>
                             <div class="flex items-center col-span-3">
                                 <input wire:model="p16a.{{0}}.jaksas.{{$index}}.nip"
+                                    value="{{$p16a[0]['jaksas'][$index]['nip']}}"
                                     class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                     type="text" />
                             </div>
@@ -232,6 +258,7 @@
                                     </div>
                                     <div class="col-span-6">
                                         <input wire:model="tersangkas.{{$index}}.nama"
+                                            value="{{$tersangkas[$index]['nama']}}"
                                             class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                             type="text" />
                                     </div>
@@ -240,6 +267,7 @@
                                     </div>
                                     <div class="col-span-6">
                                         <input wire:model="tersangkas.{{$index}}.alamat"
+                                            value="{{$tersangkas[$index]['alamat']}}"
                                             class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full"
                                             type="text" />
                                     </div>
@@ -279,42 +307,112 @@
                                 <label class="text-sm text-gray-700">Jenis</label>
                             </div>
                             <div class="col-span-6">
-                                <select wire:model="perkara.{{0}}.jenis.{{$index}}" class="border border-solid border-black focus:border-indigo-400 focus:shadow-none focus:bg-white mt-1 block w-full" name="jenis-pidana">
-                                    <option selected="">--Jenis Perkara--</option>    
-                                    <option value="Pencucian Uang">Pencucian Uang</option>
-                                    <option value="Korupsi">Korupsi</option>
-                                    <option value="Narkotika">Narkotika</option>
-                                    <option value="Terorisme">Terorisme</option>
-                                    <option value="Kehutanan">Kehutanan</option>
-                                    <option value="Kelautan / Perikanan">Kelautan / Perikanan</option>
-                                    <option value="Perpajakan">Perpajakan</option>
-                                    <option value="Kepabeanan">Kepabeanan</option>
-                                    <option value="Asuransi">Asuransi</option>
-                                    <option value="Cabul">Cabul</option>
-                                    <option value="Cukai">Cukai</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                    <option value="Lalu Lintas dan Angkutan Jalan">Lalu Lintas dan Angkutan Jalan</option>
-                                    <option value="Lingkungan Hidup">Lingkungan Hidup</option>
-                                    <option value="Pasar Modal">Pasar Modal</option>
-                                    <option value="Pemalsuan Uang">Pemalsuan Uang</option>
-                                    <option value="Penadahan">Penadahan</option>
-                                    <option value="Penculikan">Penculikan</option>
-                                    <option value="Pencurian">Pencurian</option>
-                                    <option value="Pendanaan Terorisme">Pendanaan Terorisme</option>
-                                    <option value="Penggelapan">Penggelapan</option>
-                                    <option value="Penipuan">Penipuan</option>
-                                    <option value="Penyelundupan Migran">Penyelundupan Migran</option>
-                                    <option value="Penyelundupan Tenaga Kerja">Penyelundupan Tenaga Kerja</option>
-                                    <option value="Penyuapan">Penyuapan</option>
-                                    <option value="Perbankan">Perbankan</option>
-                                    <option value="Perdagangan Orang">Perdagangan Orang</option>
-                                    <option value="Perdagangan Senjata Gelap">Perdagangan Senjata Gelap</option>
-                                    <option value="Perjudian">Perjudian</option>
-                                    <option value="Perkebunan">Perkebunan</option>
-                                    <option value="Prostitusi">Prostitusi</option>
-                                    <option value="Psikotropika">Psikotropika</option>
-                                    <option value="Traficking">Traficking</option>
-                                    <option value="Undang-Undang ITE">Undang-Undang ITE</option>
+                                <select wire:model="perkara.{{0}}.jenis.{{$index}}" class="border border-solid border-black focus:border-indigo-400 focus:shadow-none focus:bg-white mt-1 block w-full" name="jenis-pidana">  
+                                    @if($perkara[0]['jenis'][$index] == "Pencucian Uang")
+                                        <option value="Pencucian Uang" selected>Pencucian Uang</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Korupsi")
+                                        <option value="Korupsi" selected>Korupsi</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Narkotika")
+                                        <option value="Narkotika" selected>Narkotika</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Terorisme")
+                                        <option value="Terorisme" selected>Terorisme</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Kehutanan")
+                                        <option value="Kehutanan" selected>Kehutanan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Kelautan / Perikanan")
+                                        <option value="Kelautan / Perikanan" selected>Kelautan / Perikanan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Perpajakan")
+                                        <option value="Perpajakan" selected>Perpajakan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Kepabeanan")
+                                        <option value="Kepabeanan" selected>Kepabeanan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Asuransi")
+                                        <option value="Asuransi" selected>Asuransi</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Cabul")
+                                        <option value="Cabul" selected>Cabul</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Cukai")
+                                        <option value="Cukai" selected>Cukai</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Lainnya")
+                                        <option value="Lainnya" selected>Lainnya</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Lalu Lintas dan Angkutan Jalan")
+                                        <option value="Lalu Lintas dan Angkutan Jalan" selected>Lalu Lintas dan Angkutan Jalan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Lingkungan Hidup")
+                                        <option value="Lingkungan Hidup" selected>Lingkungan Hidup</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Pasar Modal")
+                                        <option value="Pasar Modal" selected>Pasar Modal</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Pemalsuan Uang")
+                                        <option value="Pemalsuan Uang" selected>Pemalsuan Uang</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Penadahan")
+                                        <option value="Penadahan" selected>Penadahan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Penculikan")
+                                        <option value="Penculikan" selected>Penculikan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Pencurian")
+                                        <option value="Pencurian" selected>Pencurian</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Pendanaan Terorisme")
+                                        <option value="Pendanaan Terorisme" selected>Pendanaan Terorisme</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Penggelapan")
+                                        <option value="Penggelapan" selected>Penggelapan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Penipuan")
+                                        <option value="Penipuan" selected>Penipuan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Penyelundupan Migran")
+                                        <option value="Penyelundupan Migran" selected>Penyelundupan Migran</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Penyelundupan Tenaga Kerja")
+                                        <option value="Penyelundupan Tenaga Kerja" selected>Penyelundupan Tenaga Kerja</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Penyuapan")
+                                        <option value="Penyuapan" selected>Penyuapan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Perbankan")
+                                        <option value="Perbankan" selected>Perbankan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Perdagangan Orang")
+                                        <option value="Perdagangan Orang" selected>Perdagangan Orang</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Perdagangan Senjata Gelap")
+                                        <option value="Perdagangan Senjata Gelap" selected>Perdagangan Senjata Gelap</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Perjudian")
+                                        <option value="Perjudian" selected>Perjudian</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Perkebunan")
+                                        <option value="Perkebunan" selected>Perkebunan</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Prostitusi")
+                                        <option value="Prostitusi" selected>Prostitusi</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Psikotropika")
+                                        <option value="Psikotropika" selected>Psikotropika</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Traficking")
+                                        <option value="Traficking" selected>Traficking</option>
+                                    @elseif($perkara[0]['jenis'][$index] == "Undang-Undang ITE")
+                                        <option value="Undang-Undang ITE" selected>Undang-Undang ITE</option>
+                                    @else
+                                        <option selected>--Jenis Perkara--</option> 
+                                        <option value="Pencucian Uang">Pencucian Uang</option>
+                                        <option value="Korupsi">Korupsi</option>
+                                        <option value="Narkotika">Narkotika</option>
+                                        <option value="Terorisme">Terorisme</option>
+                                        <option value="Kehutanan">Kehutanan</option>
+                                        <option value="Kelautan / Perikanan">Kelautan / Perikanan</option>
+                                        <option value="Perpajakan">Perpajakan</option>
+                                        <option value="Kepabeanan">Kepabeanan</option>
+                                        <option value="Asuransi">Asuransi</option>
+                                        <option value="Cabul">Cabul</option>
+                                        <option value="Cukai">Cukai</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                        <option value="Lalu Lintas dan Angkutan Jalan">Lalu Lintas dan Angkutan Jalan</option>
+                                        <option value="Lingkungan Hidup">Lingkungan Hidup</option>
+                                        <option value="Pasar Modal">Pasar Modal</option>
+                                        <option value="Pemalsuan Uang">Pemalsuan Uang</option>
+                                        <option value="Penadahan">Penadahan</option>
+                                        <option value="Penculikan">Penculikan</option>
+                                        <option value="Pencurian">Pencurian</option>
+                                        <option value="Pendanaan Terorisme">Pendanaan Terorisme</option>
+                                        <option value="Penggelapan">Penggelapan</option>
+                                        <option value="Penipuan">Penipuan</option>
+                                        <option value="Penyelundupan Migran">Penyelundupan Migran</option>
+                                        <option value="Penyelundupan Tenaga Kerja">Penyelundupan Tenaga Kerja</option>
+                                        <option value="Penyuapan">Penyuapan</option>
+                                        <option value="Perbankan">Perbankan</option>
+                                        <option value="Perdagangan Orang">Perdagangan Orang</option>
+                                        <option value="Perdagangan Senjata Gelap">Perdagangan Senjata Gelap</option>
+                                        <option value="Perjudian">Perjudian</option>
+                                        <option value="Perkebunan">Perkebunan</option>
+                                        <option value="Prostitusi">Prostitusi</option>
+                                        <option value="Psikotropika">Psikotropika</option>
+                                        <option value="Traficking">Traficking</option>
+                                        <option value="Undang-Undang ITE">Undang-Undang ITE</option>
+                                    @endif
                                 </select>
                             </div>
                             <div class="col-span-1">
@@ -328,9 +426,9 @@
                                 <label class="text-sm text-gray-700">Pasal Dakwaan</label>
                             </div>
                             <div class="col-span-7">
-                                <textarea wire:model="perkara.{{0}}.pasal_dakwaan" class="border border-solid border-black focus:border-red-400 focus:bg-white mt-1 w-full" rows="5">
-                            
-                                </textarea>
+                            <textarea wire:model="perkara.{{0}}.pasal_dakwaan" 
+                                class="border border-solid border-black focus:border-red-400 mt-1 w-full" rows="5">
+                            </textarea>
                             </div>
                         </div>
                     </div>

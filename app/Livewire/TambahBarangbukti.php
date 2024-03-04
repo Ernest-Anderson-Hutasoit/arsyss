@@ -19,6 +19,7 @@ class TambahBarangbukti extends Component
     public $jenis_satuan;
     public $i=0;
     public $indexUbah=0;
+    protected $listeners = ['simpanBarangbukti'];
 
     // public function mount()
     // {     
@@ -53,8 +54,6 @@ class TambahBarangbukti extends Component
         $this->jumlah = $this->barangbuktis[$index]['jumlah'];
         $this->jenis_satuan = $this->barangbuktis[$index]['jenis_satuan'];
 
-        
-
         $this->modalUbah = true;
     }
 
@@ -64,33 +63,40 @@ class TambahBarangbukti extends Component
         $this->modalUbah = false;
     }
 
-    public function simpanBarangbukti()
+    public function simpanBarangbukti($barangbuktis = null)
     {
         // dd($this->nama);
-        $this->barangbuktis[$this->i] = 
-        [
-            'nama' => $this->nama, 
-            'nomor_register' => $this->nomor_register, 
-            'tanggal' => $this->tanggal, 
-            'jenis' => $this->jenis, 
-            'perkiraan' => $this->perkiraan, 
-            'lokasi' => $this->lokasi, 
-            'jumlah' => $this->jumlah, 
-            'jenis_satuan' => $this->jenis_satuan
-        ];
-        $this->i++;
-        $this->reset(
+        if($barangbuktis == null)
+        {
+            $this->barangbuktis[$this->i] = 
             [
-                'nama', 
-                'nomor_register',
-                'tanggal',
-                'jenis',
-                'perkiraan',
-                'lokasi',
-                'jumlah',
-                'jenis_satuan'
-            ]
-        );
+                'nama' => $this->nama, 
+                'nomor_register' => $this->nomor_register, 
+                'tanggal' => $this->tanggal, 
+                'jenis' => $this->jenis, 
+                'perkiraan' => $this->perkiraan, 
+                'lokasi' => $this->lokasi,
+                'jumlah' => $this->jumlah, 
+                'jenis_satuan' => $this->jenis_satuan
+            ];
+            $this->i++;
+            $this->reset(
+                [
+                    'nama', 
+                    'nomor_register',
+                    'tanggal',
+                    'jenis',
+                    'perkiraan',
+                    'lokasi',
+                    'jumlah',
+                    'jenis_satuan'
+                ]
+            );
+        }
+        else
+        {
+            $this->barangbuktis = $barangbuktis;
+        }
         // dd($this->barangbuktis);
         $this->dispatch('tambahBarangbukti', $this->barangbuktis);
     }
