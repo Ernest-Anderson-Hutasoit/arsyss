@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PerkaraController;
+use App\Models\Perkara;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,15 @@ Route::get('/', function () {
 
 Route::get('/perkara/tambah', [PerkaraController::class, 'tambah'])->name('perkara.tambah');
 Route::get('/perkara/index', [PerkaraController::class, 'index'])->name('perkara.index');
+Route::delete('/perkara/{perkara}', [PerkaraController::class, 'hapus'])->name('perkara.hapus');
+Route::get('/perkara/edit/{id}', [PerkaraController::class, 'edit'])->name('perkara.edit');
+Route::put('/perkara/ubah/{id}', [PerkaraController::class, 'ubah'])->name('perkara.ubah');
+
+// Route::delete('/perkara/{perkara}', function (Perkara $perkara) {
+//     $perkara->delete();
+
+//     return redirect()->route('perkara.index')->with('success','Perkara berhasil dihapus');
+// })->name('perkara.hapus');
 
 Route::view('/home', 'home')->name('arsyss.home');
 

@@ -2,12 +2,14 @@
 
 namespace App\Livewire;
 
+use App\Models\Barangbukti;
 use Livewire\Component;
 
 class TambahBarangbukti extends Component
 {
     public $modalTambah = false;
     public $modalUbah = false;
+    public $manual;
     public $barangbuktis = [];
     public $nama;
     public $nomor_register;
@@ -21,14 +23,18 @@ class TambahBarangbukti extends Component
     public $indexUbah=0;
     protected $listeners = ['simpanBarangbukti'];
 
-    // public function mount()
-    // {     
-    //     // $this->fill([
-    //     //     'barangbuktis' => collect([
-    //     //         ['nama' => '', 'nomor_register' => '', 'tanggal' => '', 'jenis' => '', 'perkiraan' => 0, 'lokasi' => '', 'jumlah' => 0, 'jenis_satuan' => '']
-    //     //     ])
-    //     // ]);
-    // }
+    public function mount($barangbukti = null, $manual = true)
+    {     
+        $this->manual = true;
+        if($barangbukti != null)
+        {
+            $this->barangbuktis = $barangbukti->toArray();
+            $this->i = count($this->barangbuktis);
+            // dd($this->barangbuktis);
+            // dd(count($this->barangbuktis));
+            $this->manual = $manual;
+        }
+    }
     
     public function render()
     {
@@ -63,9 +69,14 @@ class TambahBarangbukti extends Component
         $this->modalUbah = false;
     }
 
-    public function simpanBarangbukti($barangbuktis = null)
+    public function simpanBarangbukti($barangbuktis = null, $manual = true)
     {
-        // dd($this->nama);
+        if(!$manual)
+        {
+            $this->manual = $manual;
+        }
+        
+        // dd($barangbuktis);
         if($barangbuktis == null)
         {
             $this->barangbuktis[$this->i] = 
@@ -122,6 +133,18 @@ class TambahBarangbukti extends Component
             'jumlah' => $this->jumlah, 
             'jenis_satuan' => $this->jenis_satuan
         ];
+        $this->reset(
+            [
+                'nama', 
+                'nomor_register',
+                'tanggal',
+                'jenis',
+                'perkiraan',
+                'lokasi',
+                'jumlah',
+                'jenis_satuan'
+            ]
+        );
         $this->dispatch('tambahBarangbukti', $this->barangbuktis);
     }
 }

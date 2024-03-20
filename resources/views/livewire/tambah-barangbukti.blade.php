@@ -3,8 +3,12 @@
         <h2 class="text-2xl font-medium pl-6 pr-6 pt-1 pb-1 bg-yellow-200">Data Barang Bukti</h2>
     </div>
     <div class="mt-4 pl-6 mr-6 pb-6">
-        <button wire:click.prevent="bukaModalTambah" class="mb-4 px-3 py-2 bg-yellow-400 hover:bg-yellow-500 text-white font-medium rounded">Tambah</button>
-
+        @if ($manual)
+            <button wire:click.prevent="bukaModalTambah" class="mb-4 px-3 py-2 bg-yellow-400 hover:bg-yellow-500 text-white font-medium rounded">Tambah</button>
+        @else
+            <button wire:click.prevent="bukaModalTambah" class="mb-4 px-3 py-2 bg-gray-400 hover:bg-gray-500 text-white font-medium rounded" disabled>Tambah</button>
+        @endif
+        
         @if($modalTambah)
             <div class="h-screen w-full fixed top-0 left-0 flex justify-center items-center bg-black bg-opacity-50">
                 <div class="relative p-4 w-full">
@@ -26,19 +30,19 @@
                             <div class="grid gap-4 mb-4 grid-cols-6">
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Register</label>
-                                    <input wire:model="nomor_register" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nomor register Barang Bukti" required="">
+                                    <input wire:model="nomor_register" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nomor register Barang Bukti" required>
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Register</label>
-                                    <input wire:model="tanggal" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tanggal Register Barang Bukti" required="">
+                                    <input wire:model="tanggal" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tanggal Register Barang Bukti" required>
                                 </div>
                                 <div class="col-span-6">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
-                                    <textarea wire:model="nama" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nama Barang Bukti"></textarea>                    
+                                    <textarea wire:model="nama" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nama Barang Bukti" required></textarea>                    
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
-                                    <select wire:model="jenis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <select wire:model="jenis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                         <option selected="">--Jenis Barang Bukti--</option>
                                         <option value="Benda Tidak Bergerak">Benda Tidak Bergerak</option>
                                         <option value="Barang Bergerak">Barang Bergerak</option>
@@ -50,7 +54,7 @@
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lokasi Penyimpanan</label>
-                                    <select wire:model="lokasi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <select wire:model="lokasi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                         <option selected="">--Lokasi Penyimpanan--</option>
                                         <option value="Gudang Barang Bukti Kejaksaan">Gudang Barang Bukti Kejaksaan</option>
                                         <option value="RUPBASAN">RUPBASAN</option>
@@ -59,11 +63,11 @@
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
-                                    <input wire:model="jumlah" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Jumlah Barang Bukti" required="">
+                                    <input wire:model="jumlah" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Jumlah Barang Bukti" required>
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Satuan</label>
-                                    <select wire:model="jenis_satuan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <select wire:model="jenis_satuan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                         <option selected="">--Satuan--</option>
                                         <option value="Unit">Unit</option>
                                         <option value="Hektar">Hektar</option>
@@ -88,7 +92,7 @@
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga Perkiraan</label>
-                                    <input wire:model="perkiraan" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Harga Perkiraan Barang Bukti" required="">
+                                    <input wire:model="perkiraan" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Harga Perkiraan Barang Bukti" required>
                                 </div>
                             </div>
                             <button wire:click="tutupModal" type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -121,19 +125,20 @@
                             <div class="grid gap-4 mb-4 grid-cols-6">
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Register</label>
-                                    <input wire:model="nomor_register" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nomor register Barang Bukti" required="">
+                                    <input wire:model="nomor_register" type="text" class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" 
+                                        placeholder="Nomor register Barang Bukti" disabled required>
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tanggal Register</label>
-                                    <input wire:model="tanggal" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tanggal Register Barang Bukti" required="">
+                                    <input wire:model="tanggal" type="date" class="bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tanggal Register Barang Bukti" disabled required>
                                 </div>
                                 <div class="col-span-6">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
-                                    <textarea wire:model="nama" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nama Barang Bukti"></textarea>                    
+                                    <textarea wire:model="nama" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-200 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Nama Barang Bukti" required disabled></textarea>                    
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jenis</label>
-                                    <select wire:model="jenis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <select wire:model="jenis" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                         <option selected="">--Jenis Barang Bukti--</option>
                                         <option value="Benda Tidak Bergerak">Benda Tidak Bergerak</option>
                                         <option value="Barang Bergerak">Barang Bergerak</option>
@@ -145,7 +150,7 @@
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Lokasi Penyimpanan</label>
-                                    <select wire:model="lokasi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <select wire:model="lokasi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                         <option selected="">--Lokasi Penyimpanan--</option>
                                         <option value="Gudang Barang Bukti Kejaksaan">Gudang Barang Bukti Kejaksaan</option>
                                         <option value="RUPBASAN">RUPBASAN</option>
@@ -154,11 +159,11 @@
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah</label>
-                                    <input wire:model="jumlah" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Jumlah Barang Bukti" required="">
+                                    <input wire:model="jumlah" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Jumlah Barang Bukti" required>
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Satuan</label>
-                                    <select wire:model="jenis_satuan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    <select wire:model="jenis_satuan" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required>
                                         <option selected="">--Satuan--</option>
                                         <option value="Unit">Unit</option>
                                         <option value="Hektar">Hektar</option>
@@ -183,7 +188,7 @@
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga Perkiraan</label>
-                                    <input wire:model="perkiraan" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Harga Perkiraan Barang Bukti" required="">
+                                    <input wire:model="perkiraan" type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Harga Perkiraan Barang Bukti" required>
                                 </div>
                             </div>
                             <button wire:click="tutupModal" type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -241,11 +246,13 @@
                     @foreach ($barangbuktis as $index => $barangbukti)
                         <tr>
                             <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
+                            @if ($manual)
                                 <button wire:click.prevent="hapusBarangbukti({{$index}})" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg px-1 py-1 my-1 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-white w-6 h-6">
                                         <path fill-rule="evenodd" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clip-rule="evenodd" />
                                     </svg>
                                 </button>
+                            @endif
                                 <button wire:click.prevent="bukaModalUbah({{$index}})" class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-1 py-1 my-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-white w-6 h-6">
                                         <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32L19.513 8.2Z" />

@@ -54,7 +54,7 @@
                     </div>
                 </header>
                 <div class="flex flex-row h-full" x-data="{ menuOpen: true }">
-                    <aside class="overflow-y-auto" :class="menuOpen ? 'w-72' : w-6">
+                    <aside :class="menuOpen ? 'w-72' : w-6">
                         @include('includes.sidebar')
                     </aside>
 

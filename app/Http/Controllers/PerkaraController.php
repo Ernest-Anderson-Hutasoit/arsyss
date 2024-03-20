@@ -12,7 +12,8 @@ class PerkaraController extends Controller
      */
     public function index()
     {
-        $perkaras = Perkara::with('barangbuktis', 'tersangkas')->get();
+        $perkaras = Perkara::with('barangbuktis', 'tersangkas', 'p16s', 'p16as', 'p16s.jaksas', 'p16as.jaksas')->get();
+        // dd($perkaras);
         return view('index_perkara', ['perkaras'=> $perkaras]);
     }
 
@@ -47,9 +48,11 @@ class PerkaraController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $perkara = Perkara::with('barangbuktis', 'tersangkas', 'p16s', 'p16as', 'p16s.jaksas', 'p16as.jaksas')->findOrFail($id);
+        // dd($perkara);
+        return view('ubah_perkara', ['perkara' => $perkara]);
     }
 
     /**
@@ -59,6 +62,11 @@ class PerkaraController extends Controller
     {
         //
     }
+    public function ubah(Request $request, $id)
+    {
+        $data = $request;
+        dd($data);
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -66,5 +74,10 @@ class PerkaraController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function hapus(Perkara $perkara)
+    {
+        $perkara->delete();
+        return redirect()->route('perkara.index')->with('success','Perkara berhasil dihapus');
     }
 }

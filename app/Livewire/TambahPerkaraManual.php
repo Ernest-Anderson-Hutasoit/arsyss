@@ -12,13 +12,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
-class TambahPerkara extends Component
-{   
-    public $modalData = true;
-    public $selectedPerkaraIndex;
-    public $inputPencarianPerkara;
-    public $dataPerkaras;
-    public $suggestions;
+class TambahPerkaraManual extends Component
+{
     public $perkara;
     public $p16;
     public $p16a;
@@ -40,7 +35,6 @@ class TambahPerkara extends Component
         'perkara.*.jenis' => 'required',
         'perkara.*.jenis.*' => 'required',
         'perkara.*.pasal_dakwaan' => 'required',
-
 
         'p16.*' => 'required',
         'p16a.*' => 'required',
@@ -65,156 +59,15 @@ class TambahPerkara extends Component
             ]),
             'tersangkas' => collect([
                 ['nama' => '', 'alamat' => '', 'gambar' => '']
-            ]),
+            ])
         ]);
     }
+
     public function render()
     {
-        return view('livewire.tambah-perkara');
-    }
-    
-    // public function updated($perkara)
-    // {
-    //     if ($this->perkara[0]['nomor_register'] !== null && !$this->isOptionSelected($this->perkara[0]['nomor_register'])) {
-    //         $this->fetchSuggestions($this->perkara[0]['nomor_register']);
-    //     }
-    //     else{
-    //         $this->suggestions = [];
-    //     }
-
-    //     // dd($this->suggestions[0]['nomor_register']);
-    //     // dd($this->perkara[0]['nomor_sprindik']);
-    // }
-
-    // public function fetchSuggestions($nomorRegister)
-    // {
-    //     $response = Http::get('http://127.0.0.1:8000/api/perkaras', [
-    //         'nomor_register' => $nomorRegister
-    //     ]);
-        
-    //     $response = json_decode($response, true);
-    //     // $response['data'][2]['jenis'] = array($response['data'][2]['jenis']);
-    //     // dd($response['data'][2]['jenis']);
-
-    //     for($i = 0; $i < count($response['data']); $i++)
-    //     {
-    //         $response['data'][$i]['jenis'] = json_decode($response['data'][$i]['jenis'], true);
-    //     }
-        
-    //     $data = $response['data'];
-
-    //     $this->suggestions = $data;
-    //     // dd($this->suggestions);
-    // }
-    // private function isOptionSelected($selectedNomorRegister)
-    // {
-    //     if($this->suggestions == null)
-    //     {
-    //         return false;
-    //     }
-    //     else
-    //     {
-    //         foreach ($this->suggestions as $index => $suggestion) {
-    //             if ($suggestion['nomor_register'] === $selectedNomorRegister) {
-    //                 $this->isiForm($index);
-    //                 return true;
-    //             }
-    //         }   
-    //     }
-    // }
-
-    public function updated($inputPencarianPerkara)
-    {
-        // dd($this->inputPencarianPerkara);
-        $this->tarikDataCMS($this->inputPencarianPerkara);
+        return view('livewire.tambah-perkara-manual');
     }
 
-    public function tarikDataCMS($search)
-    {
-        // dd($search);
-        $response = Http::get('http://127.0.0.1:8000/api/perkaras', [
-            'search' => $search
-        ]);
-
-        // dd($response);
-        
-        $response = json_decode($response, true);
-        // dd($response);
-        // $response['data'][2]['jenis'] = array($response['data'][2]['jenis']);
-        // dd($response['data'][2]['jenis']);
-
-        for($i = 0; $i < count($response['data']); $i++)
-        {
-            $response['data'][$i]['jenis'] = json_decode($response['data'][$i]['jenis'], true);
-        }
-        
-        $data = $response['data'];
-
-        // dd($data);
-
-        $this->dataPerkaras = $data;
-        // dd($this->dataPerkaras);
-    }
-
-    public function selectPerkara($index)
-    {
-        $this->selectedPerkaraIndex = $index;
-    }
-
-    public function isiForm()
-    {
-        // dd($this->selectedPerkaraIndex);
-        // dd($this->suggestions[$index]['jenis']);
-        // dd($this->perkara[0]);
-        // dd($this->p16[0]);
-        // dd($this->tersangkas);
-        // dd($this->barangbuktis);
-        
-        $this->perkara[0] = [
-            'jenis_pidana'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['jenis_pidana'],
-            'nomor_register'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['nomor_register'],
-            'nomor_sprindik'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['nomor_sprindik'],
-            'jenis'=> collect($this->dataPerkaras[$this->selectedPerkaraIndex]['jenis']),
-            'pasal_dakwaan'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['pasal_dakwaan']
-        ];
-
-        $this->p16[0] = [
-            'nomor'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['p16s']['nomor'],
-            'tanggal'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['p16s']['tanggal'],
-            'jaksas'=> collect($this->dataPerkaras[$this->selectedPerkaraIndex]['p16s']['jaksas']),
-        ];
-
-        $this->p16a[0] = [
-            'nomor'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['p16as']['nomor'],
-            'tanggal'=> $this->dataPerkaras[$this->selectedPerkaraIndex]['p16as']['tanggal'],
-            'jaksas'=> collect($this->dataPerkaras[$this->selectedPerkaraIndex]['p16as']['jaksas']),
-        ];
-
-        $this->tersangkas = collect($this->dataPerkaras[$this->selectedPerkaraIndex]['tersangkas']);
-
-        $this->barangbuktis = $this->dataPerkaras[$this->selectedPerkaraIndex]['barangbuktis'];
-        // dd($this->tersangkas);
-        // dd($this->barangbuktis);
-        $this->dispatch('simpanBarangbukti', $this->barangbuktis, $manual = false);
-        $this->tutupModal();
-    }
-
-    public function bukaModal()
-    {
-        $this->modalData = true;
-    }
-    public function tutupModal()
-    {
-        $this->reset(
-            [
-                'inputPencarianPerkara',
-                'dataPerkaras', 
-                'selectedPerkaraIndex',
-            ]
-        );
-        $this->modalData = false;
-    }
-    
     public function tambahJaksaP16()
     {
         $this->p16[0]['jaksas']->push(['nama' => '', 'nip' => '']);
@@ -343,6 +196,6 @@ class TambahPerkara extends Component
             ]);
         }
         
-        return redirect()->route('perkara.index')->with('success','Perkara sukses dibuat');
+        return redirect()->route('perkara.index');
     }
 }

@@ -55,8 +55,12 @@
                     </a>
                     <div class="border-l border-gray-400 ml-4 pl-4 text-white"
                         x-show="perkaraOpen">
-                        <h1 class="text-xs pt-2 hover:text-gray-200 cursor-pointer">Tambah Perkara</h1>
-                        <h1 class="text-xs pt-2 hover:text-gray-200 cursor-pointer">Daftar Perkara</h1>
+                        <div>
+                            <a href="{{route('perkara.tambah')}}" class="text-xs pt-2 hover:text-gray-200 cursor-pointer">Tambah Perkara</a>
+                        </div>
+                        <div>
+                            <a href="{{route('perkara.index')}}" class="text-xs pt-2 hover:text-gray-200 cursor-pointer">Daftar Perkara</a>
+                        </div>
                         <h1 class="text-xs pt-2 hover:text-gray-200 cursor-pointer">Label Generator</h1>
                         <h1 class="text-xs pt-2 hover:text-gray-200 cursor-pointer">Index Data Barang Rampasan</h1>
                     </div>

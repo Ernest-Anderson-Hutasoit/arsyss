@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nomor_register');
             $table->string('nomor_sprindik');
             $table->string('jenis');
-            $table->text('pasal_dakwaan');
+            $table->string('pasal_dakwaan');
             $table->boolean('status')->default(false);
             $table->timestamps();
         });
